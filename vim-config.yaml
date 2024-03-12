@@ -1,9 +1,9 @@
 - name: Config Vim with plugins
   hosts: localhost
-  gather_facts: yes
-  become: no
+  gather_facts: true
+  become: false
 
   tasks:
     - name: Configure Vim using role
-      import_role:
+      ansible.builtin.import_role:
         name: vim
