@@ -1,6 +1,10 @@
 # RHLS-RH294
 RH294 - Red Hat Enterprise Linux Automation with Ansible
 
+one certification, two paths : 
+ 1. [Red Hat Enterprise Linux skills path](https://www.redhat.com/en/resources/enterprise-linux-skills-path-brief) → RHCE
+ 1. [Automation skills path for Linux administrators](https://www.redhat.com/en/resources/ansible-automation-platform-skills-path-brief) → Ansible/Automation
+
 ---
 
 [gitignore](https://www.toptal.com/developers/gitignore/api/visualstudiocode,ansible,vim)
