@@ -33,3 +33,7 @@ python3 -m venv ~/.local --system-site-packages
  ~/.local/bin/pip install ansible-creator ansible-builder
 source ~/.profile
 ```
+
+### Resources 
+https://gitlab.com/rgdacosta/classroom_env
+https://gitlab.com/rgdacosta/ansible
