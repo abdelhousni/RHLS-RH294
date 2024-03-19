@@ -4,15 +4,15 @@
   become: true
   gather_facts: false
   tasks:
-    - name: Uninstall Apache httpd
-      ansible.builtin.dnf:
-        name: httpd
-        state: absent
-    - name: Enable Apache service
+    - name: Disable Apache service
       ansible.builtin.service:
         name: httpd.service
         state: stopped
         enabled: false
+    - name: Uninstall Apache httpd
+      ansible.builtin.dnf:
+        name: httpd
+        state: absent
     - name: Install firewalld
       ansible.builtin.dnf:
         name: firewalld
@@ -26,7 +26,7 @@
 #      ansible.builtin.command:
 #        cmd: 'firewall-cmd --permanent --zone=public --add-service=http --add-service=https'
 
-    - name: Open Firewall (enable http & https) # cmd: 'firewall-cmd --permanent --zone=public --add-service=http --add-service=https'
+    - name: Disable http & https # cmd: 'firewall-cmd --permanent --zone=public --add-service=http --add-service=https'
       ansible.posix.firewalld:
         service: "{{ item }}"
         permanent: true
@@ -35,7 +35,7 @@
       loop:
         - http
         - https
-    - name: Create welcome page
+    - name: Remove welcome page file
       ansible.builtin.file:
         path: /var/www/html/index.html
         state: absent
