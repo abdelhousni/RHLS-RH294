@@ -1,0 +1,3 @@
+[submodule "rhce8"]
+	path = rhce8
+	url = git@github.com:abdelhousni/rhce8.git
