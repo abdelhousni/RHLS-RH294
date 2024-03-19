@@ -2,35 +2,40 @@
 - name: Lab04 undo
   hosts: ansible2.example.com
   become: true
-  gather_facts: true
+  gather_facts: false
   tasks:
     - name: Uninstall Apache httpd
       ansible.builtin.dnf:
         name: httpd
         state: absent
-#    - name: Enable Apache service
-#      ansible.builtin.service:
-#        name: httpd
-#        state: started
-#        enabled: true
-#    - name: Uninstall firewalld
-#      ansible.builtin.dnf:
-#        name: firewalld
-#        state: absent
-#    - name: Enable firewalld
-#      ansible.builtin.service:
-#        name: firewalld
-#        state: started
-#       enabled: true
-    - name: Disable Firewall (enable http & https) # cmd: 'firewall-cmd --permanent --zone=public --add-service=http --add-service=https'
+    - name: Enable Apache service
+      ansible.builtin.service:
+        name: httpd.service
+        state: stopped
+        enabled: false
+    - name: Install firewalld
+      ansible.builtin.dnf:
+        name: firewalld
+        state: present
+    - name: Enable firewalld
+      ansible.builtin.service:
+        name: firewalld
+        state: started
+        enabled: true
+#    - name: Open Firewall (enable http & https) # cmd: 'firewall-cmd --permanent --zone=public --add-service=http --add-service=https'
+#      ansible.builtin.command:
+#        cmd: 'firewall-cmd --permanent --zone=public --add-service=http --add-service=https'
+
+    - name: Open Firewall (enable http & https) # cmd: 'firewall-cmd --permanent --zone=public --add-service=http --add-service=https'
       ansible.posix.firewalld:
-        state: absent
+        service: "{{ item }}"
         permanent: true
-        zone: public
-        service:
-          - http
-          - https
-    - name: Remove welcome page
+        state: disabled
+        immediate: true
+      loop:
+        - http
+        - https
+    - name: Create welcome page
       ansible.builtin.file:
         path: /var/www/html/index.html
         state: absent
