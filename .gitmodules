@@ -1,3 +1,6 @@
 [submodule "rhce8"]
 	path = rhce8
 	url = git@github.com:abdelhousni/rhce8.git
+[submodule "rhce8-live"]
+	path = rhce8-live
+	url = https://github.com/sandervanvugt/rhce8-live.git
