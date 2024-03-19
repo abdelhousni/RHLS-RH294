@@ -1,0 +1,39 @@
+---
+- name: Lab04
+  hosts: ansible2.example.com
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Install Apache httpd
+      ansible.builtin.dnf:
+        name: httpd
+    - name: Enable Apache service
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: true
+    - name: Install firewalld
+      ansible.builtin.dnf:
+        name: firewalld
+    - name: Enable firewalld
+      ansible.builtin.service:
+        name: firewalld
+        state: started
+        enabled: true
+    - name: Open Firewall (enable http & https) # cmd: 'firewall-cmd --permanent --zone=public --add-service=http --add-service=https'
+      ansible.posix.firewalld:
+        state: enabled
+        permanent: true
+        zone: public
+        service:
+          - http
+          - https
+    - name: Create welcome page
+      ansible.builtin.copy:
+        dest: /var/www/html/index.html
+        mode: '0644'
+        owner: httpd
+        group: httpd
+        content: |
+          <head>titre</head>
+          <body>corps broll <b>truc</a></body>
