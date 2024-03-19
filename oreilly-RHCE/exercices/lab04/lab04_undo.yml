@@ -1,0 +1,36 @@
+---
+- name: Lab04 undo
+  hosts: ansible2.example.com
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Uninstall Apache httpd
+      ansible.builtin.dnf:
+        name: httpd
+        state: absent
+#    - name: Enable Apache service
+#      ansible.builtin.service:
+#        name: httpd
+#        state: started
+#        enabled: true
+#    - name: Uninstall firewalld
+#      ansible.builtin.dnf:
+#        name: firewalld
+#        state: absent
+#    - name: Enable firewalld
+#      ansible.builtin.service:
+#        name: firewalld
+#        state: started
+#       enabled: true
+    - name: Disable Firewall (enable http & https) # cmd: 'firewall-cmd --permanent --zone=public --add-service=http --add-service=https'
+      ansible.posix.firewalld:
+        state: absent
+        permanent: true
+        zone: public
+        service:
+          - http
+          - https
+    - name: Remove welcome page
+      ansible.builtin.file:
+        path: /var/www/html/index.html
+        state: absent

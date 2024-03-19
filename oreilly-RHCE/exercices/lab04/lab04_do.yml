@@ -2,38 +2,50 @@
 - name: Lab04
   hosts: ansible2.example.com
   become: true
-  gather_facts: true
+  gather_facts: false
   tasks:
     - name: Install Apache httpd
       ansible.builtin.dnf:
         name: httpd
+        state: present
     - name: Enable Apache service
       ansible.builtin.service:
-        name: httpd
+        name: httpd.service
         state: started
         enabled: true
     - name: Install firewalld
       ansible.builtin.dnf:
         name: firewalld
+        state: present
     - name: Enable firewalld
       ansible.builtin.service:
         name: firewalld
         state: started
         enabled: true
+#    - name: Open Firewall (enable http & https) # cmd: 'firewall-cmd --permanent --zone=public --add-service=http --add-service=https'
+#      ansible.builtin.command:
+#        cmd: 'firewall-cmd --permanent --zone=public --add-service=http --add-service=https'
+
     - name: Open Firewall (enable http & https) # cmd: 'firewall-cmd --permanent --zone=public --add-service=http --add-service=https'
       ansible.posix.firewalld:
-        state: enabled
+        service: "{{ item }}"
         permanent: true
-        zone: public
-        service:
-          - http
-          - https
+        state: enabled
+        immediate: true
+      loop:
+        - http
+        - https
     - name: Create welcome page
       ansible.builtin.copy:
         dest: /var/www/html/index.html
         mode: '0644'
-        owner: httpd
-        group: httpd
+#        owner: apache
+#        group: apache
         content: |
           <head>titre</head>
           <body>corps broll <b>truc</a></body>
+    - name: Validate url
+      ansible.builtin.uri:
+        url: http://ansible2.example.com/index.html
+        status_code: 200
+        
