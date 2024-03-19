@@ -41,3 +41,4 @@ source ~/.profile
 ### Resources 
 https://gitlab.com/rgdacosta/classroom_env
 https://gitlab.com/rgdacosta/ansible
+free account : https://learning.oreilly.com/videos/red-hat-certified/ 
